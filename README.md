@@ -1,0 +1,102 @@
+# Mean App
+
+A Mean App ie MongoDB Express Angular NodeJS : a full js stack for a backend and frontend app using mongodb
+
+### Stack
+
+- [ ] **MongoDB**
+- [ ] **ExpressJS**
+- [ ] **Angular**
+- [ ] **Node**
+- [ ] **Angulat Material**
+- [ ] **Angular Layout**
+- [ ] **Bootstrap**
+
+# Developement Environment
+
+The App contains already the dependencies config. We just need to install them.
+
+1. Clone this repository
+2. Install Angular node_modules dependencies :
+
+```sh
+$ cd mean-app/client
+$ npm install
+```
+
+3. Install ExpressJs node_modules dependencies :
+
+```sh
+$ cd mean-app/server
+$ npm install
+```
+
+4. Run the client with **`ng build --watch`** to build the Angular client continuously and creates the public static files in the folder public that will be used par the server to distributes the app.
+5. Run the server with **`npm start`**
+
+## Use of a proxy
+
+We use a proxy to redirect the Angular server entries **http://localhost:4200** to the real Server with ExpressJs into the port **http://localhost:3000**. For that, just create a proxy conf file and configure the **`package.json`** named **`proxy.conf.json`** :
+
+```json
+{
+  "/api": {
+    "target": "http://localhost:3000",
+    "secure": false
+  }
+}
+```
+
+And then modify the line **`"start": "ng serve",`** in the **`package.json`** as this **`"start": "ng serve --proxy-config proxy.conf.json",`**. After that we should use **`npm start`** to start the Angular Server instead of using **`ng serve`**. This will allow the proxy to work.
+
+### Config Sexier import
+
+Modify the **`tsconfig.json`** as follow :
+
+```json
+{
+  "compilerOptions": {
+    ...
+    "baseUrl": "./",
+    "paths": {
+      "@mean-app/*": ["src/app/*"],
+      "@mean-app-env/*": ["src/environments/*"]
+    }
+  }
+}
+```
+
+## Installing Material and Flex-layout
+
+```
+$ npm i -s @angular/flex-layout
+$ npm i -s @angular/animations @angular/material @angular/cdk
+$ npm i -s @angular/hammerjs
+$
+```
+
+Or
+
+```
+$ ng add @angular/material
+```
+
+The **`ng add`** command will install Angular Material, the Component Dev Kit (CDK), Angular Animations and ask you the following questions to determine which features to include:
+
+1. Choose a prebuilt theme name, or "custom" for a custom theme.
+2. Set up global Angular Material typography styles.
+3. Set up browser animations for Angular Material.
+
+The ng add command will additionally perform the following configurations:
+
+- Add project dependencies to package.json
+- Add the Roboto font to your index.html
+- Add the Material Design icon font to your index.html
+- - Add a few global CSS styles to:
+- Remove margins from body
+- Set height: 100% on html and body
+- Set Roboto as the default application font
+
+## App structure
+
+The app handles the process of **login/signup** and **signin** for the main purpose of **Implemeting Authentication System with JWT: Oauth**. Basically it possesses a **homepage** and a **toolbar** with a routing system.
