@@ -17,8 +17,11 @@ import { SignupComponent } from "./auth/signup/signup.component";
 import { SigninComponent } from "./auth/signin/signin.component";
 import { TopbarComponent } from "./shared/components/topbar/topbar.component";
 
+// services
+
 // routing
 import { APP_ROUTES } from "./app.routing";
+import { AuthService } from "./shared/services/auth.service";
 
 @NgModule({
   declarations: [
@@ -36,7 +39,7 @@ import { APP_ROUTES } from "./app.routing";
     ReactiveFormsModule,
     RouterModule.forRoot(APP_ROUTES),
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

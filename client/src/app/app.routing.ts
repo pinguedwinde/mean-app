@@ -6,7 +6,7 @@ import { HomepageComponent } from "./homepage/homepage.component";
 export const APP_ROUTES: Route[] = [
   { path: "", component: HomepageComponent, pathMatch: "full" },
   { path: "home", component: HomepageComponent },
-  { path: "signup", component: SignupComponent },
-  { path: "signin", component: SigninComponent },
+  { path: "register", component: SignupComponent },
+  { path: "login", component: SigninComponent },
   { path: "**", redirectTo: "home" },
 ];
