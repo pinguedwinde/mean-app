@@ -18,7 +18,7 @@ import { SigninComponent } from "./auth/signin/signin.component";
 import { TopbarComponent } from "./shared/components/topbar/topbar.component";
 
 // routing
-import { APP_ROUTING } from "./app.routing";
+import { APP_ROUTES } from "./app.routing";
 
 @NgModule({
   declarations: [
@@ -34,6 +34,7 @@ import { APP_ROUTING } from "./app.routing";
     HttpClientModule,
     LayoutModule,
     ReactiveFormsModule,
+    RouterModule.forRoot(APP_ROUTES),
   ],
   providers: [],
   bootstrap: [AppComponent],

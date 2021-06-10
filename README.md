@@ -72,7 +72,6 @@ Modify the **`tsconfig.json`** as follow :
 $ npm i -s @angular/flex-layout
 $ npm i -s @angular/animations @angular/material @angular/cdk
 $ npm i -s @angular/hammerjs
-$
 ```
 
 Or
@@ -92,7 +91,7 @@ The ng add command will additionally perform the following configurations:
 - Add project dependencies to package.json
 - Add the Roboto font to your index.html
 - Add the Material Design icon font to your index.html
-- - Add a few global CSS styles to:
+- Add a few global CSS styles to:
 - Remove margins from body
 - Set height: 100% on html and body
 - Set Roboto as the default application font
