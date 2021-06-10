@@ -16,47 +16,62 @@
       <form
         [formGroup]="registrationForm"
         fxLayout="column"
-        fxLayoutGap="15px"
+        fxLayoutGap="25px"
         fxLayoutAlign="center center"
       >
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
+          <mat-label>Enter your full name</mat-label>
           <input
             matInput
             type="text"
             formControlName="username"
-            placeholder="Full Name"
+            placeholder="Pooko Tiiga"
           />
+          <mat-icon color="primary" matSuffix>person_outline</mat-icon>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
+          <mat-label>Enter your email</mat-label>
           <input
             matInput
             type="text"
             formControlName="email"
-            placeholder="Email"
+            placeholder="silag.mat@lundee.com"
           />
+          <mat-icon color="primary" matSuffix>email</mat-icon>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
+          <mat-label>Enter your password</mat-label>
           <input
             matInput
             type="password"
             formControlName="password"
             placeholder="Password"
           />
+          <mat-icon color="primary" matSuffix>lock</mat-icon>
+          <mat-hint>Password must be at least 4 characters</mat-hint>
         </mat-form-field>
         <mat-form-field class="example-full-width">
+          <mat-label>Re-enter your password</mat-label>
           <input
             matInput
             type="password"
             formControlName="confirm_password"
             placeholder="Confirm Password"
           />
+          <mat-icon color="primary" matSuffix>lock</mat-icon>
+          <mat-hint>Both Passwords must match</mat-hint>
         </mat-form-field>
+        <div *ngIf="error">
+          <mat-error>{{ error }}</mat-error>
+        </div>
         <button
           mat-raised-button
           class="btn-block bg-accent"
           (click)="trySignUp()"
         >
-          Sign up
+          <span>Sign Up</span>
+          <span class="hide-text-with-bg">Sign</span>
+          <mat-icon>person_add</mat-icon>
         </button>
       </form>
     </mat-card-content>

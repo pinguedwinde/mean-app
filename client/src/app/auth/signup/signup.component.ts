@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { AuthService } from "../../shared/services/auth.service";
+import { Router } from "@angular/router";
+
+import { User } from "@mean-app/shared/models/user.model";
+import { AuthService } from "@mean-app/shared/services/auth.service";
 
 @Component({
   selector: "app-signup",
@@ -8,21 +11,28 @@ import { AuthService } from "../../shared/services/auth.service";
   styleUrls: ["./signup.component.css"],
 })
 export class SignupComponent implements OnInit {
-  public registrationForm: FormGroup;
-  public formBuilder: FormBuilder = new FormBuilder();
+  public registrationForm!: FormGroup;
+  public error!: string;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.registrationForm = this.formBuilder.group({
       username: ["", Validators.required],
-      email: ["", Validators.required],
+      email: ["", Validators.required, Validators.email],
       password: ["", Validators.required],
       confirm_password: ["", Validators.required],
     });
   }
 
   public trySignUp() {
-    console.log(this.registrationForm.value);
+    this.authService.signUp(this.registrationForm.value).subscribe(
+      (user: User) => this.router.navigate(["/login"]),
+      (error: Error) => (this.error = error.message)
+    );
   }
 }

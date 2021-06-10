@@ -16,31 +16,51 @@
       <form
         [formGroup]="signinForm"
         fxLayout="column"
-        fxLayoutGap="15px"
+        fxLayoutGap="25px"
         fxLayoutAlign="center center"
       >
-        <mat-form-field class="example-full-width">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your email</mat-label>
           <input
             matInput
             type="text"
-            formControlName="username"
-            placeholder="Full Name"
+            formControlName="email"
+            placeholder="silga.mat@lundee.com"
           />
+          <mat-icon color="primary" matSuffix>person_outline</mat-icon>
+          <mat-hint>A valid email to authenticate you</mat-hint>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your password</mat-label>
           <input
             matInput
-            type="password"
+            [type]="hide ? 'password' : 'text'"
             formControlName="password"
             placeholder="Password"
           />
+          <button
+            mat-icon-button
+            color="primary"
+            (click)="hide = !hide"
+            matSuffix
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-hint>Password must be at least 4 characters</mat-hint>
         </mat-form-field>
+        <div *ngIf="error">
+          <mat-error>{{ error }}</mat-error>
+        </div>
         <button
           mat-raised-button
           class="btn-block bg-accent"
           (click)="trySignin()"
         >
-          Sign In
+          <span>Sign In</span>
+          <span class="hide-text-with-bg">Sign</span>
+          <mat-icon>send</mat-icon>
         </button>
       </form>
     </mat-card-content>
