@@ -9,12 +9,12 @@ function isLoggedIn(request, response, next) {
   if (token) {
     jwt.verify(token, PUBLIC_RSA_KEY, (error, decoded) => {
       if (error) {
-        response.status(401).json("Invalid token!");
+        return response.status(401).json("Invalid token!");
       } else {
         const sub = decoded.sub;
         User.findOne({ _id: sub }, (mongooseError, retrievedUser) => {
           if (mongooseError || !retrievedUser) {
-            response.status(500).json("Internal Server Error!");
+            return response.status(500).json("Internal Server Error!");
           } else {
             request.user = retrievedUser;
             console.log(request.user);

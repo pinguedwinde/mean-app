@@ -4,12 +4,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const PRIVATE_RSA_KEY = fs.readFileSync("./rsa/key");
+const PUBLIC_RSA_KEY = fs.readFileSync("./rsa/key.pub");
 
 router.post("/login", (request, response) => {
   User.findOne({ email: request.body.email }).exec((error, user) => {
     if (user && bcrypt.compareSync(request.body.password, user.password)) {
       const token = jwt.sign({}, PRIVATE_RSA_KEY, {
         algorithm: "RS256",
+        expiresIn: "15s",
         subject: user._id.toString(),
       });
       response.status(200).json(token);
@@ -17,6 +19,26 @@ router.post("/login", (request, response) => {
       response.status(401).json("Login failed !");
     }
   });
+});
+
+router.get("/token/refresh", (request, response) => {
+  const token = request.headers.authorization;
+  if (token) {
+    jwt.verify(token, PUBLIC_RSA_KEY, (error, decoded) => {
+      if (error) {
+        return response.status(401).json("Invalid token!");
+      } else {
+        const newToken = jwt.sign({}, PRIVATE_RSA_KEY, {
+          algorithm: "RS256",
+          expiresIn: "15s",
+          subject: decoded.sub,
+        });
+        response.status(200).json(newToken);
+      }
+    });
+  } else {
+    response.status(403).json("No token");
+  }
 });
 
 router.post("/register", (request, response) => {

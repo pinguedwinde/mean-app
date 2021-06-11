@@ -32,7 +32,6 @@ export class TopbarComponent implements OnInit, OnDestroy {
       token: null,
     });
     localStorage.removeItem("jwt");
-    this.router.navigate(["/home"]);
-    this.router.navigate(["/account"]);
+    this.router.navigate(["/login"]);
   }
 }
