@@ -19,12 +19,15 @@ import { ProfileComponent } from "./profile/profile.component";
 
 // services
 import { AuthService } from "./shared/services/auth.service";
+import { UserService } from "./shared/services/user.service";
 
 //guards
 import { AuthGuard } from "./shared/guards/auth.guard";
 
 // routing
 import { APP_ROUTES } from "./app.routing";
+
+import { AuthInterceptor } from "./shared/interceptors/auth.intercerptor";
 
 @NgModule({
   declarations: [
@@ -43,7 +46,16 @@ import { APP_ROUTES } from "./app.routing";
     ReactiveFormsModule,
     RouterModule.forRoot(APP_ROUTES),
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [
+    AuthService,
+    AuthGuard,
+    UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

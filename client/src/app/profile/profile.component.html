@@ -1,5 +1,5 @@
 <div fxLayout="column" class="my-5 py-5" fxLayoutAlign="center center">
-  <mat-card class="profile-card">
+  <mat-card *ngIf="user$ | async; let user" class="profile-card">
     <mat-card-header>
       <div mat-card-avatar class="header-image"></div>
       <mat-card-title>Welcome deer</mat-card-title>
@@ -8,11 +8,16 @@
     <mat-card-content>
       <div fxLayout="column" fxLayoutGap="25px" fxLayoutAlign="center center">
         <mat-form-field appearance="fill">
-          <input matInput type="text" disabled placeholder="Pooko Tiiga" />
+          <input matInput type="text" disabled [placeholder]="user.name" />
           <mat-icon color="primary" matSuffix>person_outline</mat-icon>
         </mat-form-field>
         <mat-form-field appearance="fill">
-          <input matInput disabled type="text" placeholder="sil" />
+          <input
+            matInput
+            disabled
+            type="text"
+            [placeholder]="user.email ? user.email : 'oups no email'"
+          />
           <mat-icon color="primary" matSuffix>email</mat-icon>
         </mat-form-field>
         <button mat-raised-button class="btn-block bg-accent">
