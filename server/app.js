@@ -4,6 +4,7 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const index = require("./routes/index");
 
 const app = express();
 
@@ -13,14 +14,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "../public")));
 
+// RequestHandlers
+app.use(index);
+
 mongoose.connect(
   "mongodb+srv://angulardyma:123123123@cluster0-urpjt.gcp.mongodb.net/angulardyma?retryWrites=true&w=majority",
   {
     keepAlive: true,
     useUnifiedTopology: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
   },
-  function(error) {
+  function (error) {
     if (error) {
       console.log(error);
     } else {

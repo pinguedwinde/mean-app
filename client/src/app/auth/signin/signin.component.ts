@@ -21,15 +21,15 @@ export class SigninComponent implements OnInit {
 
   ngOnInit(): void {
     this.signinForm = this.formBuilder.group({
-      email: ["", Validators.required, Validators.email],
-      password: ["", Validators.required, Validators.minLength(4)],
+      email: ["", Validators.required],
+      password: ["", Validators.required],
     });
   }
 
   public trySignin() {
     this.authService.signIn(this.signinForm.value).subscribe(
       () => this.router.navigate(["/home"]),
-      (error: Error) => (this.error = error.message)
+      (error) => (this.error = error.error)
     );
   }
 }

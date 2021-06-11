@@ -99,3 +99,24 @@ The ng add command will additionally perform the following configurations:
 ## App structure
 
 The app handles the process of **login/signup** and **signin** for the main purpose of **Implemeting Authentication System with JWT: Oauth**. Basically it possesses a **homepage** and a **toolbar** with a routing system.
+
+## JWT : authentication
+
+1. We crypt the password with **bcript** before storing it into the database. So we need to install this packahe for ExpressJS : go to to the folder `/server` and run this command
+
+**`$ npm install bcrypt`**
+
+2. The JSON Web Token (JWT) is the service that will provide the **token** when try to sign in a user. So first, we should provide this package also to ExpressJS :
+
+```sh
+$ npm install jsonwebtoken
+```
+
+And the we'll provide the **Payload**, the **Secret** and then the **Header**. To provide the **Secret**, we're using the Algorithm **RS256** and we generate a private RSA key to provide this JWT Secret. So, to achieve that we run these command with no **Passphrase** :
+
+```sh
+$ ssh-keygen -t rsa -b 4096 -m PEM -f key
+$ ssh-keygen -e -m PEM -f key > key.pub
+```
+
+We go an output of two file, one is the private key contained into the file **`key`**. We read its content and use it as the Jwt.Secret for encryption.

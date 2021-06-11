@@ -21,6 +21,7 @@ import { TopbarComponent } from "./shared/components/topbar/topbar.component";
 // routing
 import { APP_ROUTES } from "./app.routing";
 import { AuthService } from "./shared/services/auth.service";
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AuthService } from "./shared/services/auth.service";
     SignupComponent,
     SigninComponent,
     TopbarComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

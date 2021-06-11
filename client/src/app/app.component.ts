@@ -1,3 +1,4 @@
+import { AuthService } from "@mean-app/shared/services/auth.service";
 import { Component } from "@angular/core";
 
 @Component({
@@ -5,5 +6,5 @@ import { Component } from "@angular/core";
   templateUrl: "./app.component.html",
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private authService: AuthService) {}
 }

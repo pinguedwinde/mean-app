@@ -10,8 +10,8 @@ import { JwtToken } from "../models/jwt-token.model";
   providedIn: "root",
 })
 export class AuthService {
-  private URL = "http://localhost:3000/api/auth/register";
-  private jwtToken$: BehaviorSubject<JwtToken> = new BehaviorSubject<JwtToken>({
+  private URL = "/api/auth";
+  public jwtToken$: BehaviorSubject<JwtToken> = new BehaviorSubject<JwtToken>({
     isAuthenticated: null,
     token: null,
   });
@@ -36,15 +36,17 @@ export class AuthService {
   }
 
   public signUp(user: User): Observable<User> {
-    return this.http.post<User>(this.URL, user);
+    return this.http.post<User>(`${this.URL}/register`, user);
   }
 
   public signIn(credentials: {
     email: string;
     password: string;
   }): Observable<string> {
-    return this.http.post<string>(this.URL, credentials).pipe(
+    return this.http.post<string>(`${this.URL}/login`, credentials).pipe(
       tap((token: string) => {
+        console.log(token);
+
         this.jwtToken$.next({
           isAuthenticated: true,
           token: token,

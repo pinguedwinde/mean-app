@@ -23,7 +23,7 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     this.registrationForm = this.formBuilder.group({
       username: ["", Validators.required],
-      email: ["", Validators.required, Validators.email],
+      email: ["", Validators.required],
       password: ["", Validators.required],
       confirm_password: ["", Validators.required],
     });
@@ -32,7 +32,7 @@ export class SignupComponent implements OnInit {
   public trySignUp() {
     this.authService.signUp(this.registrationForm.value).subscribe(
       (user: User) => this.router.navigate(["/login"]),
-      (error: Error) => (this.error = error.message)
+      (error) => (this.error = error.error)
     );
   }
 }

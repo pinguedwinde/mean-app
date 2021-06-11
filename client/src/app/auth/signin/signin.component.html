@@ -19,7 +19,7 @@
         fxLayoutGap="25px"
         fxLayoutAlign="center center"
       >
-        <mat-form-field appearance="outline">
+        <mat-form-field>
           <mat-label>Enter your email</mat-label>
           <input
             matInput
@@ -30,7 +30,7 @@
           <mat-icon color="primary" matSuffix>person_outline</mat-icon>
           <mat-hint>A valid email to authenticate you</mat-hint>
         </mat-form-field>
-        <mat-form-field appearance="outline">
+        <mat-form-field>
           <mat-label>Enter your password</mat-label>
           <input
             matInput
@@ -58,9 +58,8 @@
           class="btn-block bg-accent"
           (click)="trySignin()"
         >
-          <span>Sign In</span>
-          <span class="hide-text-with-bg">Sign</span>
-          <mat-icon>send</mat-icon>
+          <span class="pr-2">Sign In</span>
+          <mat-icon class="pl-2">send</mat-icon>
         </button>
       </form>
     </mat-card-content>
