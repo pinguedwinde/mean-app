@@ -1,0 +1,14 @@
+.home-card {
+  color: white;
+  width: 70%;
+}
+
+.profile-card {
+  min-width: 200px;
+  max-width: 400px;
+}
+
+.header-image {
+  background-image: url("https://mdbootstrap.com/img/new/slides/041.jpg");
+  background-size: cover;
+}

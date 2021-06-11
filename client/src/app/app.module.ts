@@ -15,13 +15,16 @@ import { HomepageComponent } from "./homepage/homepage.component";
 import { SignupComponent } from "./auth/signup/signup.component";
 import { SigninComponent } from "./auth/signin/signin.component";
 import { TopbarComponent } from "./shared/components/topbar/topbar.component";
+import { ProfileComponent } from "./profile/profile.component";
 
 // services
+import { AuthService } from "./shared/services/auth.service";
+
+//guards
+import { AuthGuard } from "./shared/guards/auth.guard";
 
 // routing
 import { APP_ROUTES } from "./app.routing";
-import { AuthService } from "./shared/services/auth.service";
-import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,7 @@ import { ProfileComponent } from './profile/profile.component';
     ReactiveFormsModule,
     RouterModule.forRoot(APP_ROUTES),
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,6 +1,8 @@
-import { JwtToken } from "./../../models/jwt-token.model";
+import { Router } from "@angular/router";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
+
+import { JwtToken } from "./../../models/jwt-token.model";
 import { AuthService } from "@mean-app/shared/services/auth.service";
 
 @Component({
@@ -12,7 +14,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
   public jwtToken!: JwtToken;
   private subscription!: Subscription;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.subscription = this.authService.jwtToken$.subscribe(
@@ -30,5 +32,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
       token: null,
     });
     localStorage.removeItem("jwt");
+    this.router.navigate(["/home"]);
+    this.router.navigate(["/account"]);
   }
 }

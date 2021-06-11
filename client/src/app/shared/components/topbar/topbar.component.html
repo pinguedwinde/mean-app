@@ -17,7 +17,7 @@
   <div *ngIf="jwtToken.isAuthenticated">
     <button mat-icon-button class="link nav-actions">
       <mat-icon class="pr-2">account_circle</mat-icon>
-      <span class="pl-2">My Account</span>
+      <span routerLink="account" class="pl-2">My Account</span>
     </button>
     <button mat-icon-button class="ml-2 link nav-actions" (click)="logout()">
       <mat-icon>power_settings_new</mat-icon>

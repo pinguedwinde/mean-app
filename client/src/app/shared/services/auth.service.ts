@@ -45,8 +45,6 @@ export class AuthService {
   }): Observable<string> {
     return this.http.post<string>(`${this.URL}/login`, credentials).pipe(
       tap((token: string) => {
-        console.log(token);
-
         this.jwtToken$.next({
           isAuthenticated: true,
           token: token,
