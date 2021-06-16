@@ -120,3 +120,7 @@ $ ssh-keygen -e -m PEM -f key > key.pub
 ```
 
 We go an output of two file, one is the private key contained into the file **`key`**. We read its content and use it as the Jwt.Secret for encryption.
+
+## NgRx
+
+We use NgRx in the application to improve our app and refactor all the app : to get a better structure and architecture.

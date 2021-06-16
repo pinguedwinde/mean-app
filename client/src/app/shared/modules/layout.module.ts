@@ -1,29 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { MaterialModule } from "./material.module";
 
-const MODULE = [
-  FlexLayoutModule,
-  MatToolbarModule,
-  MatButtonModule,
-  MatInputModule,
-  MatFormFieldModule,
-  MatCardModule,
-  MatIconModule
-];
+const MODULES = [CommonModule, FlexLayoutModule, MaterialModule];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ...MODULE
-  ],
-  exports: MODULE,
-  declarations: []
+  imports: MODULES,
+  exports: MODULES,
 })
-export class LayoutModule { }
+export class LayoutModule {}
