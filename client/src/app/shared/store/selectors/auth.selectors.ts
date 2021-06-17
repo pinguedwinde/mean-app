@@ -34,3 +34,14 @@ export const tokenSelector = createSelector(
     }
   }
 );
+
+export const userSelector = createSelector(
+  authFeatureSelector,
+  (authState: AuthState) => {
+    if (authState) {
+      return authState.user;
+    } else {
+      return null;
+    }
+  }
+);

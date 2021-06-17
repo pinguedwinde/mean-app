@@ -1,4 +1,4 @@
-import { TryRefreshToken } from "./../actions/auth.actions";
+import { FetchUserSuccess, FetchUserError } from "./../actions/auth.actions";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
@@ -15,6 +15,7 @@ import {
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 
 import { AuthService } from "@mean-app/shared/services/auth.service";
+import { TryRefreshToken } from "@mean-app/shared/store/actions/auth.actions";
 import { User } from "@mean-app/shared/models/user.model";
 import { UserCredentials } from "@mean-app/shared/models/user-credentials.model";
 import { JwtToken } from "@mean-app/shared/models/jwt-token.model";
@@ -29,6 +30,7 @@ import {
 import { select, Store } from "@ngrx/store";
 import { State } from "..";
 import { tokenSelector } from "../selectors/auth.selectors";
+import { UserService } from "@mean-app/shared/services/user.service";
 
 @Injectable()
 export class AuthEffects {
@@ -117,6 +119,18 @@ export class AuthEffects {
     )
   );
 
+  tryFetchUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActionsType.TRY_FETCH_USER),
+      switchMap(() => {
+        return this.userService.getCurrentUser().pipe(
+          map((user: User) => new FetchUserSuccess(user)),
+          catchError((error: any) => of(new FetchUserError(error.statusText)))
+        );
+      })
+    )
+  );
+
   logout$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -136,6 +150,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private authService: AuthService,
+    private userService: UserService,
     private router: Router,
     private store: Store<State>
   ) {}

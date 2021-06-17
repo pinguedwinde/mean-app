@@ -1,7 +1,10 @@
-import { UserService } from "./../shared/services/user.service";
+import { TryFetchUser } from "./../shared/store/actions/auth.actions";
 import { User } from "@mean-app/shared/models/user.model";
 import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
+import { select, Store } from "@ngrx/store";
+import { State } from "@mean-app/shared/store";
+import { userSelector } from "@mean-app/shared/store/selectors/auth.selectors";
 
 @Component({
   selector: "app-profile",
@@ -11,9 +14,10 @@ import { Observable } from "rxjs";
 export class ProfileComponent implements OnInit {
   public user$!: Observable<User>;
 
-  constructor(private userService: UserService) {}
+  constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
-    this.user$ = this.userService.getCurrentUser();
+    this.user$ = this.store.pipe(select(userSelector));
+    this.store.dispatch(new TryFetchUser());
   }
 }

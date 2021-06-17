@@ -16,15 +16,6 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   public getCurrentUser(): Observable<User> {
-    if (this.user$.value !== null && this.user$.value.name !== "") {
-      return this.user$;
-    } else {
-      return this.http.get<User>("api/user/current").pipe(
-        switchMap((user: User) => {
-          this.user$.next(user);
-          return this.user$;
-        })
-      );
-    }
+    return this.http.get<User>("api/user/current");
   }
 }

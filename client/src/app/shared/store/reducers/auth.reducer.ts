@@ -44,6 +44,18 @@ export function authReducer(
         },
         error: null,
       };
+    case AuthActionsType.FETCH_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        error: null,
+      };
+    case AuthActionsType.FETCH_USER_ERROR:
+      return {
+        ...state,
+        user: null,
+        error: action.payload,
+      };
     default:
       return state;
   }
