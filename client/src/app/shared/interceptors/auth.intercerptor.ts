@@ -1,5 +1,4 @@
-import { JwtToken } from "./../models/jwt-token.model";
-import { jwtTokenSelector } from "./../store/selectors/auth.selectors";
+import { tokenSelector } from "@mean-app/shared/store/selectors/auth.selectors";
 import {
   HttpEvent,
   HttpHandler,
@@ -13,11 +12,11 @@ import { Injectable } from "@angular/core";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private token: JwtToken;
+  private token: string;
   constructor(private store: Store<State>) {
     this.store
-      .pipe(select(jwtTokenSelector))
-      .subscribe((token: JwtToken) => (this.token = token));
+      .pipe(select(tokenSelector))
+      .subscribe((token: string) => (this.token = token));
   }
   intercept(
     req: HttpRequest<any>,
@@ -25,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (this.token) {
       const userServiceRequest = req.clone({
-        headers: req.headers.set("authorization", this.token.token),
+        headers: req.headers.set("authorization", this.token),
       });
       return next.handle(userServiceRequest);
     } else {

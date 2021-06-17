@@ -1,15 +1,23 @@
-import { JwtToken } from "./../../models/jwt-token.model";
-import { UserCredentials } from "@mean-app/shared/models/user-credentials.model";
+import { TryRefreshToken } from "./../actions/auth.actions";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { of, EMPTY, Subscription } from "rxjs";
-import { map, catchError, switchMap, tap, exhaustMap } from "rxjs/operators";
+import {
+  map,
+  catchError,
+  switchMap,
+  tap,
+  exhaustMap,
+  withLatestFrom,
+} from "rxjs/operators";
 
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 
 import { AuthService } from "@mean-app/shared/services/auth.service";
 import { User } from "@mean-app/shared/models/user.model";
+import { UserCredentials } from "@mean-app/shared/models/user-credentials.model";
+import { JwtToken } from "@mean-app/shared/models/jwt-token.model";
 import {
   AuthActionsType,
   SigninError,
@@ -18,6 +26,9 @@ import {
   TrySignin,
   TrySignup,
 } from "@mean-app/shared/store/actions/auth.actions";
+import { select, Store } from "@ngrx/store";
+import { State } from "..";
+import { tokenSelector } from "../selectors/auth.selectors";
 
 @Injectable()
 export class AuthEffects {
@@ -75,21 +86,34 @@ export class AuthEffects {
   tryRefreshToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActionsType.TRY_REFRESH_TOKEN),
-      switchMap(() =>
-        this.authService.refreshToken().pipe(
-          map((token: string) => {
-            console.log("Token refreshed");
-            return new SigninSuccess({ isAuthenticated: true, token: token });
-          }),
-          catchError(() => {
-            if (this.subscription) {
-              this.subscription.unsubscribe();
-            }
-            localStorage.removeItem("jwt");
-            return EMPTY;
-          })
-        )
-      )
+      withLatestFrom(this.store.pipe(select(tokenSelector))),
+      switchMap(([action, token]) => {
+        if (token) {
+          return this.authService.refreshToken().pipe(
+            map((newToken) => {
+              console.log("Token refreshed");
+
+              return new SigninSuccess({
+                isAuthenticated: true,
+                token: newToken,
+              });
+            }),
+            catchError(() => {
+              if (this.subscription) {
+                this.subscription.unsubscribe();
+              }
+              localStorage.removeItem("jwt");
+              return EMPTY;
+            })
+          );
+        } else {
+          console.log("No token to refresh");
+          if (this.subscription) {
+            this.subscription.unsubscribe();
+          }
+          return EMPTY;
+        }
+      })
     )
   );
 
@@ -112,6 +136,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private store: Store<State>
   ) {}
 }

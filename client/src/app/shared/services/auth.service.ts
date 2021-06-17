@@ -26,7 +26,7 @@ export class AuthService {
   }
 
   private initToken(): void {
-    const token: string | null = localStorage.getItem("jwt");
+    const token: string = localStorage.getItem("jwt");
     if (token) {
       this.jwtToken$.next({
         isAuthenticated: true,

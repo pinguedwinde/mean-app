@@ -8,7 +8,19 @@ export interface AuthState {
   error: string;
 }
 
-export function authReducer(state: AuthState, action: AuthAction): AuthState {
+export const initialAuthState: AuthState = {
+  user: null,
+  token: {
+    isAuthenticated: null,
+    token: localStorage.getItem("jwt"),
+  },
+  error: null,
+};
+
+export function authReducer(
+  state: AuthState = initialAuthState,
+  action: AuthAction
+): AuthState {
   switch (action.type) {
     case AuthActionsType.SIGNUP_ERROR:
     case AuthActionsType.SIGNIN_ERROR:

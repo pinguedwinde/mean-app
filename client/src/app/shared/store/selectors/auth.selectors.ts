@@ -23,3 +23,14 @@ export const jwtTokenSelector = createSelector(
     }
   }
 );
+
+export const tokenSelector = createSelector(
+  authFeatureSelector,
+  (authState: AuthState) => {
+    if (authState) {
+      return authState.token.token;
+    } else {
+      return null;
+    }
+  }
+);
