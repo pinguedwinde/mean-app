@@ -1,9 +1,14 @@
+import { authErrorSelector } from "./../../../shared/store/selectors/auth.selectors";
+import { TrySignup } from "./../../../shared/store/actions/auth.actions";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 
 import { User } from "@mean-app/shared/models/user.model";
 import { AuthService } from "@mean-app/shared/services/auth.service";
+import { State } from "@mean-app/shared/store";
+import { select, Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-signup",
@@ -12,12 +17,13 @@ import { AuthService } from "@mean-app/shared/services/auth.service";
 })
 export class SignupComponent implements OnInit {
   public registrationForm!: FormGroup;
-  public error!: string;
+  public error$: Observable<string>;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private store: Store<State>
   ) {}
 
   ngOnInit(): void {
@@ -27,12 +33,11 @@ export class SignupComponent implements OnInit {
       password: ["", Validators.required],
       confirm_password: ["", Validators.required],
     });
+
+    this.error$ = this.store.pipe(select(authErrorSelector));
   }
 
   public trySignUp() {
-    this.authService.signUp(this.registrationForm.value).subscribe(
-      (user: User) => this.router.navigate(["/login"]),
-      (error) => (this.error = error.error)
-    );
+    this.store.dispatch(new TrySignup(this.registrationForm.value));
   }
 }

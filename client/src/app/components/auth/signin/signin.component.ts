@@ -1,7 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { AuthService } from "@mean-app/shared/services/auth.service";
+import { select, Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+
+import { State } from "@mean-app/shared/store";
+import { TrySignin } from "@mean-app/shared/store/actions/auth.actions";
+import { authErrorSelector } from "@mean-app/shared/store/selectors/auth.selectors";
 
 @Component({
   selector: "app-signin",
@@ -10,26 +14,20 @@ import { AuthService } from "@mean-app/shared/services/auth.service";
 })
 export class SigninComponent implements OnInit {
   public signinForm!: FormGroup;
-  public error!: string;
+  public error$: Observable<string>;
   public hide: boolean = true;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private formBuilder: FormBuilder, private store: Store<State>) {}
 
   ngOnInit(): void {
     this.signinForm = this.formBuilder.group({
       email: ["", Validators.required],
       password: ["", Validators.required],
     });
+    this.error$ = this.store.pipe(select(authErrorSelector));
   }
 
   public trySignin() {
-    this.authService.signIn(this.signinForm.value).subscribe(
-      () => this.router.navigate(["/home"]),
-      (error) => (this.error = error.error)
-    );
+    this.store.dispatch(new TrySignin(this.signinForm.value));
   }
 }

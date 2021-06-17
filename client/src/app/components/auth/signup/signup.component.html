@@ -61,7 +61,7 @@
           <mat-icon color="primary" matSuffix>lock</mat-icon>
           <mat-hint>Both Passwords must match</mat-hint>
         </mat-form-field>
-        <div *ngIf="error">
+        <div *ngIf="error$ | async; let error">
           <mat-error>{{ error }}</mat-error>
         </div>
         <button

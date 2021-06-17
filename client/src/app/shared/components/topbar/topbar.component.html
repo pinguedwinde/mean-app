@@ -4,7 +4,7 @@
   </button>
   <span class="link" routerLink="/">Logo</span>
   <span fxFlex="auto"></span>
-  <div *ngIf="!jwtToken.isAuthenticated">
+  <div *ngIf="!(isAuthenticated$ | async)">
     <button mat-icon-button class="link nav-actions">
       <mat-icon>login</mat-icon>
       <span routerLink="login">Log in</span>
@@ -14,7 +14,7 @@
       <span routerLink="register">Sign up</span>
     </button>
   </div>
-  <div *ngIf="jwtToken.isAuthenticated">
+  <div *ngIf="isAuthenticated$ | async">
     <button mat-icon-button class="link nav-actions">
       <mat-icon class="pr-2">account_circle</mat-icon>
       <span routerLink="account" class="pl-2">My Account</span>

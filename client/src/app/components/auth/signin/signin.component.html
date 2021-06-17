@@ -50,7 +50,7 @@
           </button>
           <mat-hint>Password must be at least 4 characters</mat-hint>
         </mat-form-field>
-        <div *ngIf="error">
+        <div *ngIf="error$ | async; let error">
           <mat-error>{{ error }}</mat-error>
         </div>
         <button

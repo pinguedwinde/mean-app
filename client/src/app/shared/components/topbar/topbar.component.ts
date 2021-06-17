@@ -1,37 +1,39 @@
 import { Router } from "@angular/router";
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 
 import { JwtToken } from "./../../models/jwt-token.model";
 import { AuthService } from "@mean-app/shared/services/auth.service";
+import { select, Store } from "@ngrx/store";
+import { State } from "@mean-app/shared/store";
+import { jwtTokenSelector } from "@mean-app/shared/store/selectors/auth.selectors";
+import { map } from "rxjs/operators";
+import { Logout } from "@mean-app/shared/store/actions/auth.actions";
 
 @Component({
   selector: "app-topbar",
   templateUrl: "./topbar.component.html",
   styleUrls: ["./topbar.component.css"],
 })
-export class TopbarComponent implements OnInit, OnDestroy {
-  public jwtToken!: JwtToken;
-  private subscription!: Subscription;
+export class TopbarComponent implements OnInit {
+  public isAuthenticated$: Observable<boolean>;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private store: Store<State>) {}
 
   ngOnInit() {
-    this.subscription = this.authService.jwtToken$.subscribe(
-      (jwtToken: JwtToken) => (this.jwtToken = jwtToken)
+    this.isAuthenticated$ = this.store.pipe(
+      select(jwtTokenSelector),
+      map((jwtToken: JwtToken) => {
+        if (jwtToken) {
+          return jwtToken.isAuthenticated;
+        } else {
+          return false;
+        }
+      })
     );
   }
 
-  ngOnDestroy(): void {
-    if (this.subscription) this.subscription.unsubscribe();
-  }
-
   public logout(): void {
-    this.authService.jwtToken$.next({
-      isAuthenticated: false,
-      token: null,
-    });
-    localStorage.removeItem("jwt");
-    this.router.navigate(["/login"]);
+    this.store.dispatch(new Logout());
   }
 }
