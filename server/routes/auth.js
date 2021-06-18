@@ -11,7 +11,7 @@ router.post("/login", (request, response) => {
     if (user && bcrypt.compareSync(request.body.password, user.password)) {
       const token = jwt.sign({}, PRIVATE_RSA_KEY, {
         algorithm: "RS256",
-        expiresIn: "15s",
+        expiresIn: "50s",
         subject: user._id.toString(),
       });
       response.status(200).json(token);

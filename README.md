@@ -124,3 +124,16 @@ We go an output of two file, one is the private key contained into the file **`k
 ## NgRx
 
 We use NgRx in the application to improve our app and refactor all the app : to get a better structure and architecture.
+
+## Module Photos
+
+We add a feature that uses **Unsplash** library.
+
+- The internet’s source of freely-usable images.
+- Powered by creators everywhere.
+- Beautiful, free images and photos that you can download and use for any project. Better than any royalty free or stock photos.
+- To use it, install it with :
+
+```sh
+$ npm i unsplash-js
+```

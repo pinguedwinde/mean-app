@@ -14,10 +14,30 @@
       <span routerLink="register">Sign up</span>
     </button>
   </div>
-  <div *ngIf="isAuthenticated$ | async">
+  <div
+    *ngIf="isAuthenticated$ | async"
+    fxLayout="row"
+    fxAlignLayout="center center"
+    fxLayoutGap="15px"
+  >
+    <div class="search-box-container">
+      <div fxLayout="row" fxAlignLayout="center center" class="search-box">
+        <mat-icon class="search-icon">search</mat-icon>
+        <input
+          (keyup)="applyFilterSearch()"
+          [(ngModel)]="search"
+          type="text"
+          placeholder="Search photos"
+        />
+      </div>
+    </div>
+    <button mat-icon-button class="link nav-actions">
+      <mat-icon class="pr-2">insert_photo</mat-icon>
+      <span routerLink="photos">Photos</span>
+    </button>
     <button mat-icon-button class="link nav-actions">
       <mat-icon class="pr-2">account_circle</mat-icon>
-      <span routerLink="account" class="pl-2">My Account</span>
+      <span routerLink="account">My Account</span>
     </button>
     <button mat-icon-button class="ml-2 link nav-actions" (click)="logout()">
       <mat-icon>power_settings_new</mat-icon>

@@ -1,14 +1,16 @@
-import { Router } from "@angular/router";
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Observable, Subscription } from "rxjs";
+import { Component, OnInit } from "@angular/core";
+import { Observable } from "rxjs";
 
-import { JwtToken } from "./../../models/jwt-token.model";
-import { AuthService } from "@mean-app/shared/services/auth.service";
+import { JwtToken } from "@mean-app/shared/models/jwt-token.model";
 import { select, Store } from "@ngrx/store";
 import { State } from "@mean-app/shared/store";
 import { jwtTokenSelector } from "@mean-app/shared/store/selectors/auth.selectors";
 import { map } from "rxjs/operators";
 import { Logout } from "@mean-app/shared/store/actions/auth.actions";
+import {
+  SetPhotosFilter,
+  TryFetchPhotos,
+} from "@mean-app/photos/shared/store/photos.actions";
 
 @Component({
   selector: "app-topbar",
@@ -17,6 +19,8 @@ import { Logout } from "@mean-app/shared/store/actions/auth.actions";
 })
 export class TopbarComponent implements OnInit {
   public isAuthenticated$: Observable<boolean>;
+  public search: string;
+  public isPhotosRoute$: Observable<boolean>;
 
   constructor(private store: Store<State>) {}
 
@@ -35,5 +39,10 @@ export class TopbarComponent implements OnInit {
 
   public logout(): void {
     this.store.dispatch(new Logout());
+  }
+
+  public applyFilterSearch(): void {
+    this.store.dispatch(new SetPhotosFilter(this.search));
+    this.store.dispatch(new TryFetchPhotos());
   }
 }

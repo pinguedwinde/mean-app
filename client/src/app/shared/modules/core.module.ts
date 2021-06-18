@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 // Components
 import { SigninComponent } from "@mean-app/components/auth/signin/signin.component";
@@ -29,7 +29,13 @@ const COMPONENTS = [
 @NgModule({
   declarations: COMPONENTS,
   exports: COMPONENTS,
-  imports: [HttpClientModule, ReactiveFormsModule, RouterModule, LayoutModule],
+  imports: [
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    RouterModule,
+    LayoutModule,
+  ],
   providers: [
     AuthService,
     AuthGuard,

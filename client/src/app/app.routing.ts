@@ -16,5 +16,11 @@ export const APP_ROUTES: Route[] = [
     loadChildren: () =>
       import("app/profile/profile.module").then((m) => m.ProfileModule),
   },
+  {
+    path: "photos",
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import("app/photos/photos.module").then((m) => m.PhotosModule),
+  },
   { path: "**", redirectTo: "home" },
 ];

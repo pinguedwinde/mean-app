@@ -21,9 +21,7 @@ export class AuthService {
     token: null,
   });
 
-  constructor(private http: HttpClient, private store: Store<State>) {
-    //this.initToken();
-  }
+  constructor(private http: HttpClient, private store: Store<State>) {}
 
   private initToken(): void {
     const token: string = localStorage.getItem("jwt");
@@ -41,40 +39,10 @@ export class AuthService {
   }
 
   public initRefreshToken(): Observable<number> {
-    return timer(2000, 5000).pipe(
+    return timer(5000, 10000).pipe(
       tap(() => this.store.dispatch(new TryRefreshToken()))
     );
   }
-  //   switchMap(() => {
-  //     if (localStorage.getItem("jwt")) {
-  //       console.log("try to refresh token");
-  //       return this.http.get<string>(`${this.URL}/token/refresh`).pipe(
-  //         tap((token: string) => {
-  //           this.jwtToken$.next({
-  //             isAuthenticated: true,
-  //             token: token,
-  //           });
-  //           localStorage.setItem("jwt", token);
-  //         })
-  //       );
-  //     } else {
-  //       console.log("no token to refresh");
-  //       this.subscription.unsubscribe();
-  //       return of(null);
-  //     }
-  //   })
-  // )
-  // .subscribe(
-  //   () => {},
-  //   (error) => {
-  //     this.jwtToken$.next({
-  //       isAuthenticated: false,
-  //       token: null,
-  //     });
-  //     localStorage.removeItem("jwt");
-  //     this.subscription.unsubscribe();
-  //   }
-  // );
 
   public refreshToken(): Observable<string> {
     return this.http.get<string>(`${this.URL}/token/refresh`);
